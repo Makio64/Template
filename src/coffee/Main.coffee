@@ -42,15 +42,18 @@ document.addEventListener('DOMContentLoaded', ()->
 	
 	window.onblur = (e)->
 		main.pause = true
-		cancelAnimationFrame(main.animate)
+		cancelAnimationFrame(main.update)
+		return
 
 	window.onfocus = ()->
-		requestAnimationFrame( main.update )
+		requestAnimationFrame(main.update)
 		main.lastTime = Date.now()
 		main.pause = false
+		return
 
 	window.onresize = ()->
 		main.resize()
+		return
 
 	return
 )

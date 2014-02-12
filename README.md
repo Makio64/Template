@@ -28,8 +28,9 @@ grunt imageoptim
 To launch the task.
 
 ## Credits
-Base on the [template](https://github.com/floz/templates) of my friend @Floz 
-Differences :
+Base on the [template](https://github.com/floz/templates) of my friend @Floz
+
+Differences:
 - Replacement of Compass by Stylus(+nib plugin) to avoid the dependency to ruby
 - Default grunt task create a local server using [connect](https://github.com/gruntjs/grunt-contrib-connect) with [livereload](http://livereload.com/) enable
 - RequestAnimationFrame is include.
