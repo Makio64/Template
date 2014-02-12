@@ -45,14 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
   main = new Main();
   window.onblur = function(e) {
     main.pause = true;
-    return cancelAnimationFrame(main.animate);
+    cancelAnimationFrame(main.update);
   };
   window.onfocus = function() {
     requestAnimationFrame(main.update);
     main.lastTime = Date.now();
-    return main.pause = false;
+    main.pause = false;
   };
   window.onresize = function() {
-    return main.resize();
+    main.resize();
   };
 });
