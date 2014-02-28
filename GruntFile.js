@@ -1,12 +1,12 @@
 module.exports = function ( grunt ) {
 
-    var serverPort = 9001
-    ,   srcCoffee = "src/coffee/"
-    ,   srcJade = "src/jade/"
-    ,   deployJade = "deploy/"
-    ,   coffeesToWatch = null
-    ,   sassToWatch = null
-    ,   jadesToWatch = null;
+    var serverPort  = 9001
+    ,   srcCoffee   = "src/coffee/"
+    ,   srcJade     = "src/jade/"
+    ,   deployJade  = "deploy/"
+    ,   coffeesToWatch
+    ,   sassToWatch
+    ,   jadesToWatch;
 
     grunt.loadNpmTasks( "grunt-contrib-stylus" );
     grunt.loadNpmTasks( "grunt-contrib-watch" );
@@ -14,7 +14,8 @@ module.exports = function ( grunt ) {
     grunt.loadNpmTasks( "grunt-contrib-coffee" );
     grunt.loadNpmTasks( "grunt-contrib-imagemin" );
     grunt.loadNpmTasks( "grunt-contrib-uglify" );
-    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-express');
+    grunt.loadNpmTasks('grunt-notify');
 
     grunt.event.on( "watch", function( action, filepath ) {
         var fileType = getFileType( filepath );
@@ -64,33 +65,34 @@ module.exports = function ( grunt ) {
     function initConfig() {
         grunt.config.init( {
             pkg: grunt.file.readJSON('package.json'),
-            connect: {
-                    server: {
-                        options: {
-                            port: serverPort,
-                            base: 'deploy'
-                        }
+            express: {
+                server: {
+                    options: {
+                        port: serverPort,
+                        bases: 'deploy/',
+                        hostname: '0.0.0.0',
+                        livereload: true
                     }
-                },
+                }
+            },
             watch: {
                 coffee: {
                     files: [ "src/coffee/**/*.coffee" ],
-                    tasks: [ "coffee:compile" ],
+                    tasks: [ "coffee:compile", "notify:coffee" ],
                     options: {
                       livereload: true,
                     }
                 },
                 stylus: {
                     files: [ "src/stylus/**/*.styl" ],
-                    tasks: [ "stylus" ],
+                    tasks: [ "stylus", "notify:stylus" ],
                     options: {
                       livereload: true,
                     }
-
                 },
                 jade: {
                     files: [ "src/jade/**/*.jade" ],
-                    tasks: [ "jade:compile" ],
+                    tasks: [ "jade:compile", "notify:jade" ],
                     options: {
                       livereload: true,
                     }
@@ -152,7 +154,16 @@ module.exports = function ( grunt ) {
                         "deploy/js/main.min.js": "deploy/js/main.js"
                     }
                 }
-            }
+            },
+
+            notify: {
+                server: { options: { message: 'Server is ready on port :'+serverPort } },
+                compile: { options: { message: 'Jade / Coffeescript / Stylus compile with success'} },
+                jade: { options: { message: 'Jade compile with success'} },
+                stylus: { options: { message: 'Stylus compile with success'} },
+                coffee: { options: { message: 'Coffeescript compile with success'} }
+            },
+
         });
     }
 
@@ -161,7 +172,7 @@ module.exports = function ( grunt ) {
     initConfig();
 
     grunt.registerTask( "imageoptim", [ "imagemin:dynamic" ] );
-    grunt.registerTask( "compile", [ "jade:compile", "coffee:compile", "stylus" ] )
-    grunt.registerTask( "all", [ "jade:compile", "coffee:compile", "stylus", "uglify" ] )
-    grunt.registerTask( "default", ["compile", "connect", "watch"] );
+    grunt.registerTask( "compile", [ "jade:compile", "coffee:compile", "stylus", "notify:compile" ] )
+    grunt.registerTask( "all", [ "jade:compile", "coffee:compile", "stylus", "uglify", "imageoptim" ] )
+    grunt.registerTask( "default", ["compile", "express", "notify:server", "watch"] );
 }
