@@ -7,31 +7,28 @@
 
 ## Getting started
 
-Just type this command:
+Select the lib you want for the project by editing : bower.json
+Then just type this commands:
 ```shell
+bower install
 npm install
 ```
-And then:
+
+Run the project on localhost:
 ```shell
 grunt
 ```
-And you are ready to go.
 
-## Change the server port
-Open GruntFile.js and simply change serverPort.
-
-## ImageOptim
-grunt-imagemin is used to do this process.
+Build final ( cssmin/jsmin/ etc.. ) :
 ```shell
-grunt imageoptim
+grunt build
 ```
-To launch the task.
 
-## Credits
-Base on the [template](https://github.com/floz/templates) of my friend @Floz
+## Inspired by
+- Yeoman [template](https://github.com/yeoman)
+- Floz template [template](https://github.com/floz/templates) from my friend @Floz
 
-Differences:
-- Replacement of Compass by Stylus(+nib plugin) to avoid the dependency to ruby
-- Default grunt task create a local server using [connect](https://github.com/gruntjs/grunt-contrib-connect) with [livereload](http://livereload.com/) enable
-- RequestAnimationFrame is include.
-- Main class manage the global update, deltaTime implementation and blur/focus/resize of the windows.
+##2.0:
+- grunt more clean and effiscient
+- add bower
+- change architecture inspired by yeoman

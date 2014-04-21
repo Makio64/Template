@@ -1,14 +1,22 @@
 doctype html
 html(lang="en")
-  head
-    meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-    meta(name="viewport", content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width")
-        
-    title SimpleTemplate
+	head
+		meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+		meta(name="viewport", content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width")
+				
+		title SimpleTemplate
+		// build:css({.tmp,app}) css/main.css
+		link(rel='stylesheet', href='css/main.css')
+		// endbuild
 
-    link(rel='stylesheet', href='css/main.css')
+		// build:js js/vendor.js
+		// bower:js
+		// endbower
+		// endbuild
 
-    script(type='text/javascript', src='js/raf.js')
-    script(type='text/javascript', src='js/main.js')
-  body
-    h1 Imagination is more important than knowledge.
+		// build:js js/main.js
+		script(type='text/javascript', src='js/Main.js')
+		script(type='text/javascript', src='js/Hola.js')
+		// endbuild
+	body
+		h1 Imagination is more important than knowledge.

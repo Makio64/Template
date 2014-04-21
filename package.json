@@ -4,21 +4,30 @@
   "version": "0.0.1",
   "private": true,
   "engines": {
-    "node": "0.8.x",
-    "npm": "1.2.x"
+    "node": "*",
+    "npm": "*"
   },
   "dependencies": {
     "coffee-script": "*"
   },
   "devDependencies": {
     "grunt": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-contrib-jade": "*",
+    "grunt-bower-install": "*",
+    "grunt-concurrent": "*",
+    "grunt-contrib-clean": "*",
     "grunt-contrib-coffee": "*",
-    "grunt-contrib-stylus": "~0.4.0",
-    "grunt-contrib-imagemin": "~0.3.0",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-imagemin": "*",
+    "grunt-contrib-jade": "*",
+    "grunt-contrib-stylus": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
     "grunt-express": "*",
-    "grunt-notify": "*"
+    "grunt-notify": "*",
+    "grunt-usemin": "*",
+    "load-grunt-tasks": "*",
+    "time-grunt": "*"
   }
 }
