@@ -26,6 +26,7 @@
     "grunt-contrib-watch": "*",
     "grunt-express": "*",
     "grunt-notify": "*",
+    "grunt-svgmin": "*",
     "grunt-usemin": "*",
     "load-grunt-tasks": "*",
     "time-grunt": "*"

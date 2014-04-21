@@ -200,6 +200,17 @@ module.exports = function ( grunt ) {
 				}
 			},
 
+			svgmin: {
+				dist: {
+					files: [{
+						expand: true,
+						cwd: '<%= paths.app %>/img/',
+						src: '**/*.svg',
+						dest: '<%= paths.dist %>/img/'
+					}]
+				}
+			},
+
 			// Fancy
 			notify: {
 				server: { options: { message: 'Server is ready on port : 9001' } },
@@ -226,7 +237,7 @@ module.exports = function ( grunt ) {
 
 	// Main tasks
 	grunt.registerTask( 'compile', [ 'concurrent:compile', 'bowerInstall:app',  'notify:compile' ] )
-	grunt.registerTask( 'build', [ 'clean:dist', 'compile', 'useminPrepare', 'concat', 'copy:dist', 'cssmin', 'uglify', 'imagemin', 'usemin' ] )
+	grunt.registerTask( 'build', [ 'clean:dist', 'compile', 'useminPrepare', 'concat', 'copy:dist', 'cssmin', 'uglify', 'imagemin', 'svgmin', 'usemin' ] )
 	grunt.registerTask( 'test', ['clean:server', 'compile', 'express', 'notify:server', 'watch'] );
 	grunt.registerTask( 'default', 'test' );
 }
