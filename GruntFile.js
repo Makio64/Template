@@ -52,7 +52,7 @@ module.exports = function ( grunt ) {
 				},
 				jade: {
 					files: [ '<%= paths.src %>/jade/index.jade' ],
-					tasks: [ 'jade:compile', 'notify:jade' ],
+					tasks: [ 'jade:compile', 'bowerInstall', 'notify:jade' ],
 					options: {
 					  livereload: true,
 					}
