@@ -29,6 +29,7 @@
     "grunt-svgmin": "*",
     "grunt-usemin": "*",
     "load-grunt-tasks": "*",
-    "time-grunt": "*"
+    "time-grunt": "*",
+    "grunt-newer": "^0.7.0"
   }
 }

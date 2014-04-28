@@ -10,8 +10,7 @@
 Select the lib you want for the project by editing : bower.json
 Then just type this commands:
 ```shell
-bower install
-npm install
+bower install && npm install
 ```
 
 Run the project on localhost:

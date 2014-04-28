@@ -6,8 +6,6 @@ module.exports = function ( grunt ) {
 	// Time how long tasks take. 
 	require('time-grunt')(grunt);
 
-
-
 	function initConfig() {
 
 		grunt.config.init( {
@@ -36,26 +34,21 @@ module.exports = function ( grunt ) {
 
 			// Watch files 
 			watch: {
+				options: {
+					nospawn: true,
+					livereload: true
+				},
 				coffee: {
 					files: [ '<%= paths.src %>/coffee/**/*.coffee' ],
-					tasks: [ 'coffee:compile', 'notify:coffee' ],
-					options: {
-					  livereload: true,
-					}
+					tasks: [ 'newer:coffee:compile', 'notify:coffee' ],
 				},
 				stylus: {
 					files: [ '<%= paths.src %>/stylus/**/*.styl' ],
-					tasks: [ 'stylus', 'notify:stylus' ],
-					options: {
-					  livereload: true,
-					}
+					tasks: [ 'newer:stylus', 'notify:stylus' ],
 				},
 				jade: {
 					files: [ '<%= paths.src %>/jade/index.jade' ],
-					tasks: [ 'jade:compile', 'notify:jade' ],
-					options: {
-					  livereload: true,
-					}
+					tasks: [ 'newer:jade:compile', 'notify:jade' ],
 				},
 				bower: {
 					files: ['bower.json'],
@@ -72,17 +65,17 @@ module.exports = function ( grunt ) {
 					},
 					files:{
 						'<%= paths.app %>/index.html' : '<%= paths.src %>/jade/**/*.jade'
-					} 
+					}
 				}
 			},
 
 			coffee: {
 				compile: {
 					expand: true,
-					flatten: true,
-					cwd: '<%= paths.src %>/coffee/',
-					src: ['**/*.coffee'],
-					dest: '<%= paths.app %>/js/',
+					flatten: false,
+					cwd: '<%= paths.src %>/coffee',
+					src: '**/*.coffee',
+					dest: '<%= paths.app %>/js',
 					ext: '.js'
 				}
 			},
