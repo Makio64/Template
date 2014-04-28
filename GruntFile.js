@@ -87,9 +87,12 @@ module.exports = function ( grunt ) {
 						firebug: false,
 						urlfunc: 'url'
 					},
-					files: {
-						'<%= paths.app %>/css/main.css': ['<%= paths.src %>/stylus/main.styl']  
-					}
+					expand: true,
+					flatten: true,
+					cwd: '<%= paths.src %>/stylus',
+					src: '**/*.styl',
+					dest: '<%= paths.app %>/css',
+					ext: '.css'
 				}
 			},
 
@@ -163,20 +166,15 @@ module.exports = function ( grunt ) {
 
 			usemin: {
 				html: ['<%= paths.dist %>/*.html'],
-				css: ['<%= paths.dist %>/css/*.css'],
+				css: ['<%= paths.dist %>/css/**/*.css'],
 				options: {
 					assetsDirs: ['<%= paths.dist %>']
 				}
 			},
 				
 			cssmin: {
-				minify: {
-					expand: true,
-					cwd: '<%= paths.app %>/css/',
-					src: ['*.css', '!*.min.css'],
-					dest: '<%= paths.dist %>/css/',
-					ext: '.css'
-				}
+				src: ['*.css', '!*.min.css'],
+				dest: '<%= paths.dist %>/css/',
 			},
 
 			imagemin: {
@@ -204,13 +202,20 @@ module.exports = function ( grunt ) {
 				}
 			},
 
+			rev: {
+				files: {
+					src: ['<%= paths.dist %>/js/**/*.js', '<%= paths.dist %>/css/**/*.css']
+				}
+			},
+
 			// Fancy
 			notify: {
 				server: { options: { message: 'Server is ready on port : 9001' } },
-				compile: { options: { message: 'Jade / Coffeescript / Stylus compile with success'} },
-				jade: { options: { message: 'Jade compile with success'} },
-				stylus: { options: { message: 'Stylus compile with success'} },
-				coffee: { options: { message: 'Coffeescript compile with success'} }
+				compile: { options: { message: 'Jade / Coffeescript / Stylus compiled with success'} },
+				jade: { options: { message: 'Jade compiled with success'} },
+				stylus: { options: { message: 'Stylus compiled with success'} },
+				coffee: { options: { message: 'Coffeescript compiled with success'} },
+				build: { options: { message: 'Build completed'} }
 			},
 
 			// Run some tasks in parallel to speed up the build process
@@ -230,7 +235,7 @@ module.exports = function ( grunt ) {
 
 	// Main tasks
 	grunt.registerTask( 'compile', [ 'concurrent:compile', 'bowerInstall:app',  'notify:compile' ] )
-	grunt.registerTask( 'build', [ 'clean:dist', 'compile', 'useminPrepare', 'concat', 'copy:dist', 'cssmin', 'uglify', 'imagemin', 'svgmin', 'usemin' ] )
+	grunt.registerTask( 'build', [ 'clean:dist', 'compile', 'useminPrepare', 'concat', 'copy:dist', 'uglify', 'cssmin', 'imagemin', 'svgmin', 'rev', 'usemin','clean:server', 'notify:build' ] )
 	grunt.registerTask( 'test', ['clean:server', 'compile', 'express', 'notify:server', 'watch'] );
 	grunt.registerTask( 'default', 'test' );
 }
