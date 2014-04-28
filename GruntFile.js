@@ -48,7 +48,7 @@ module.exports = function ( grunt ) {
 				},
 				jade: {
 					files: [ '<%= paths.src %>/jade/index.jade' ],
-					tasks: [ 'newer:jade:compile', 'notify:jade' ],
+					tasks: [ 'newer:jade:compile', 'bowerInstall', 'notify:jade' ],
 				},
 				bower: {
 					files: ['bower.json'],
