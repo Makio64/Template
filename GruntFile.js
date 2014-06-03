@@ -71,6 +71,9 @@ module.exports = function ( grunt ) {
 
 			coffee: {
 				compile: {
+					options: {
+						bare: true
+					},
 					expand: true,
 					flatten: false,
 					cwd: '<%= paths.src %>/coffee',
