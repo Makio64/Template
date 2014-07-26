@@ -8,7 +8,7 @@
 	],
 	"dependencies": {
 		"jquery"			: "~2.*",
-		"three.js"			: "*",
+		"threejs"			: "*",
 		"pixi.js"			: "*",
 		"vue"				: "*",
 		"raf.js"			: "*",
