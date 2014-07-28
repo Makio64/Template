@@ -72,6 +72,8 @@ module.exports = function ( grunt ) {
 			coffee: {
 				compile: {
 					options: {
+						sourceMap: true,
+						sourceRoot: '',
 						bare: true
 					},
 					expand: true,
