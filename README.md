@@ -1,4 +1,4 @@
-# Project template
+# [Project template by Makio64](https://github.com/Makio64/Template)
 
 > A project template using :
 - Stylus | http://learnboost.github.io/stylus/
