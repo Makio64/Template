@@ -9,7 +9,7 @@
 
 Install nodejs : http://nodejs.org/
 
-Type this commands, if you get an error during the installation add sudo before commands :
+Install the depedency, if you get an error during the installation add sudo before the command :
 ```shell
 npm install -g bower
 npm install -g jade
@@ -19,12 +19,13 @@ npm install -g grunt-cli
 ```
 
 Select the lib you want for the project by editing : bower.json
-Then just type this commands:
+
+Then type this commands to setup the project:
 ```shell
 npm install && bower install
 ```
 
-Run the project on localhost:
+When everything is install, run the project with this command:
 ```shell
 grunt
 ```
