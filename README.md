@@ -11,14 +11,11 @@ Install nodejs : http://nodejs.org/
 
 Install the depedency, if you get an error during the installation add sudo before the command :
 ```shell
-npm install -g bower
-npm install -g jade
-npm install -g stylus
-npm install -g coffeescript
 npm install -g grunt-cli
 ```
 
 Select the lib you want for the project by editing : bower.json
+For more lib check : http://bower.io/search/
 
 Then type this commands to setup the project:
 ```shell
