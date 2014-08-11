@@ -1,61 +1,58 @@
-(function() {
-  var Main, main,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+var Main, main,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  main = null;
+main = null;
 
-  Main = (function() {
-    Main.prototype.dt = 0;
+Main = (function() {
+  Main.prototype.dt = 0;
 
-    Main.prototype.lastTime = 0;
+  Main.prototype.lastTime = 0;
 
-    Main.prototype.pause = false;
+  Main.prototype.pause = false;
 
-    function Main() {
-      this.resize = __bind(this.resize, this);
-      this.update = __bind(this.update, this);
-      this.pause = false;
-      this.lastTime = Date.now();
-      window.focus();
-      requestAnimationFrame(this.update);
+  function Main() {
+    this.resize = __bind(this.resize, this);
+    this.update = __bind(this.update, this);
+    this.pause = false;
+    this.lastTime = Date.now();
+    window.focus();
+    requestAnimationFrame(this.update);
+    return;
+  }
+
+  Main.prototype.update = function() {
+    var dt, t;
+    t = Date.now();
+    dt = t - this.lastTime;
+    this.lastTime = t;
+    if (this.pause) {
       return;
     }
+    requestAnimationFrame(this.update);
+  };
 
-    Main.prototype.update = function() {
-      var dt, t;
-      t = Date.now();
-      dt = t - this.lastTime;
-      this.lastTime = t;
-      if (this.pause) {
-        return;
-      }
-      requestAnimationFrame(this.update);
-    };
+  Main.prototype.resize = function() {
+    var height, width;
+    width = window.innerWidth;
+    height = window.innerHeight;
+  };
 
-    Main.prototype.resize = function() {
-      var height, width;
-      width = window.innerWidth;
-      height = window.innerHeight;
-    };
+  return Main;
 
-    return Main;
+})();
 
-  })();
-
-  document.addEventListener('DOMContentLoaded', function() {
-    main = new Main();
-    window.onblur = function(e) {
-      main.pause = true;
-      cancelAnimationFrame(main.update);
-    };
-    window.onfocus = function() {
-      requestAnimationFrame(main.update);
-      main.lastTime = Date.now();
-      main.pause = false;
-    };
-    window.onresize = function() {
-      main.resize();
-    };
-  });
-
-}).call(this);
+document.addEventListener('DOMContentLoaded', function() {
+  main = new Main();
+  window.onblur = function(e) {
+    main.pause = true;
+    cancelAnimationFrame(main.update);
+  };
+  window.onfocus = function() {
+    requestAnimationFrame(main.update);
+    main.lastTime = Date.now();
+    main.pause = false;
+  };
+  window.onresize = function() {
+    main.resize();
+  };
+});
