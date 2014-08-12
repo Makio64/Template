@@ -14,7 +14,8 @@ DataManager = (function() {
       o = objects[i];
       this.loading++;
       $.getJSON(o.url, function(data) {
-        return this.jsons[o.id] = data;
+        DataManager.jsons[o.id] = data;
+        DataManager.onLoadComplete();
       });
     }
   };

@@ -14,7 +14,9 @@ class DataManager
 			o = objects[i]
 			@loading++
 			$.getJSON( o.url, ( data )->
-				@jsons[o.id] = data
+				DataManager.jsons[o.id] = data
+				DataManager.onLoadComplete()
+				return
 			)
 		return
 
