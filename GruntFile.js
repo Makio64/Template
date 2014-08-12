@@ -35,7 +35,7 @@ module.exports = function ( grunt ) {
 			// Watch files 
 			watch: {
 				options: {
-					nospawn: true,
+					spawn: true,
 					livereload: true
 				},
 				coffee: {
@@ -54,6 +54,10 @@ module.exports = function ( grunt ) {
 					files: ['bower.json'],
 					tasks: ['bowerInstall']
 				},
+				shaders: {
+					files: [ '<%= paths.src %>/shaders/**/*.js' ],
+					tasks: [ 'copy:shaders' ]
+				}
 			},
 
 			// Compile task
@@ -150,6 +154,19 @@ module.exports = function ( grunt ) {
 						}
 					]
 				},
+				shaders:{
+					files: [
+						{
+							expand: true,
+							dot: true,
+							cwd: '<%= paths.src %>',
+							dest: '<%= paths.app %>/js/',
+							src: [
+								'shaders/**/*.*'
+							]
+						}
+					]
+				},
 			},
 
 			// Optimizing tasks
@@ -220,7 +237,8 @@ module.exports = function ( grunt ) {
 				jade: { options: { message: 'Jade compiled with success'} },
 				stylus: { options: { message: 'Stylus compiled with success'} },
 				coffee: { options: { message: 'Coffeescript compiled with success'} },
-				build: { options: { message: 'Build completed'} }
+				build: { options: { message: 'Build completed'} },
+				shaders: { options: { message: 'Shaders copy with success'} }
 			},
 
 			// Run some tasks in parallel to speed up the build process
@@ -239,8 +257,9 @@ module.exports = function ( grunt ) {
 	initConfig();
 
 	// Main tasks
+	grunt.registerTask( 'shaders', ['copy:shaders','notify:shaders'] )
 	grunt.registerTask( 'compile', [ 'concurrent:compile', 'bowerInstall:app',  'notify:compile' ] )
 	grunt.registerTask( 'build', [ 'clean:dist', 'compile', 'useminPrepare', 'concat', 'copy:dist', 'uglify', 'cssmin', 'imagemin', 'svgmin', 'rev', 'usemin','clean:server', 'notify:build' ] )
-	grunt.registerTask( 'test', ['clean:server', 'compile', 'express', 'notify:server', 'watch'] );
+	grunt.registerTask( 'test', ['clean:server', 'compile', 'shaders', 'express', 'notify:server', 'watch'] )
 	grunt.registerTask( 'default', 'test' );
 }
