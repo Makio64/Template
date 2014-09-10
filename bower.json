@@ -12,6 +12,7 @@
 		"pixi.js"			: "*",
 		"vue"				: "*",
 		"raf.js"			: "*",
-		"dat-gui"			: "*"
+		"dat-gui"			: "*",
+		"gsap"				: "*"
 	}
 }
