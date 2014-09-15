@@ -27,6 +27,10 @@ class Stage3d
 		document.body.appendChild(@renderer.domElement)
 		return
 
+	@add = (obj)->
+		@scene.add(obj)
+		return
+
 	@render = ()->
 		@camera.position.x += (@cameraTarget.x-@camera.position.x)*0.05
 		@camera.position.y += (@cameraTarget.y-@camera.position.y)*0.05

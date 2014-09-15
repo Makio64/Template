@@ -25,6 +25,7 @@ class Main
 		if @pause then return
 
 		#update logic here
+		SceneTraveler.currentScene.update(dt)
 
 		requestAnimationFrame( @update )
 		return
@@ -32,6 +33,7 @@ class Main
 	resize:()=>
 		width 	= window.innerWidth
 		height 	= window.innerHeight
+		SceneTraveler.resize()
 		return
 
 

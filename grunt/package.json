@@ -28,12 +28,12 @@
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
     "grunt-express": "*",
+    "grunt-newer": "^0.7.0",
     "grunt-notify": "*",
+    "grunt-rev": "^0.1.0",
     "grunt-svgmin": "*",
     "grunt-usemin": "*",
     "load-grunt-tasks": "*",
-    "time-grunt": "*",
-    "grunt-newer": "^0.7.0",
-    "grunt-rev": "^0.1.0"
+    "time-grunt": "*"
   }
 }
