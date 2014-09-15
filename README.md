@@ -5,7 +5,7 @@ This template make the powerfull combo coffee/stylus/jade easy to test & deploy.
 I use it a lot for my webexperiments and prototypes but it's also a very good entry point for profesionnal work.
 
 ### What the template do for you
->- create a local server with livereload ( reload your browser  when you change a file )
+- create a local server with livereload ( reload your browser  when you change a file )
 - compile your stylus / jade / coffeescript
 - give a nice, light and basic structure for your coffee/stylus development
 - sourcemap for stylus & coffeescript for easy debugging
@@ -18,7 +18,7 @@ I use it a lot for my webexperiments and prototypes but it's also a very good en
 
 
 ### This template use
->- Gulp | http://gulpjs.com/
+- Gulp | http://gulpjs.com/
 - Bower | http://bower.io/
 - Stylus | http://learnboost.github.io/stylus/
 - CoffeeScript | http://coffeescript.org/
@@ -31,25 +31,26 @@ Install nodejs if you don't have it : http://nodejs.org/
 
 Then copy the template in a folder and type in the console
 ```shell
+cd yourFolder/
 npm install
 ```
 
-By default this package include a lot of lib js. edit "bower.json" to change it
-If you want more lib check : http://bower.io/search/
-
-When you are ready to run the project :
+Edit "bower.json" to keep only the lib you want and then :
 ```shell
 gulp
 ```
-
-Ahoy ! You should then see your html page running on a local server :)
-NB : the first time can be longer as you need to download the js lib you select from bower ( jquery/threejs/etc.. )
-To stop the server crtl+c on the terminal
 
 To build the final files ( imagemin/cssmin/jsmin/htmlmin/versionning/etc.. ) :
 ```shell
 gulp build
 ```
+
+
+### Tips & Fact
+- The first gulp can be longer as you need to download the js lib you select from bower ( jquery/threejs/etc.. )
+- To stop the server crtl+c on the terminal
+- To check all the lib avaiable on bower : http://bower.io/search
+- Change the port of the localserver in the gulpfile
 
 ##Versions
 3.0:
