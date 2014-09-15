@@ -4,19 +4,6 @@ This template make the powerfull combo coffee/stylus/jade easy to test & deploy.
 
 I use it a lot for my webexperiments and prototypes but it's also a very good entry point for profesionnal work.
 
-### What the template do for you
-- create a local server with livereload ( reload your browser  when you change a file )
-- compile your stylus / jade / coffeescript
-- give a nice, light and basic structure for your coffee/stylus development
-- sourcemap for stylus & coffeescript for easy debugging
-- notify the compilation success/error via growl
-- include optimized .httaccess / manifest / robot for your webapp
-- install new bower depedency automatically
-- inject the lib you want with bower to your html
-- minify the images/js/html/css for  you
-- concatenate your css & js
-
-
 ### This template use
 - Gulp | http://gulpjs.com/
 - Bower | http://bower.io/
@@ -44,6 +31,19 @@ To build the final files ( imagemin/cssmin/jsmin/htmlmin/versionning/etc.. ) :
 ```shell
 gulp build
 ```
+
+### What the template do exactly for you
+- create a local server with livereload ( reload your browser  when you change a file )
+- compile your stylus / jade / coffeescript
+- give a nice, light and basic structure for your coffee/stylus development
+- sourcemap for stylus & coffeescript for easy debugging
+- notify the compilation success/error via growl
+- include optimized .httaccess / manifest / robot for your webapp
+- include nib for stylus
+- install new bower depedency automatically
+- inject the lib you want with bower to your html
+- minify the images/js/html/css for  you
+- concatenate your css & js
 
 
 ### Tips & Fact
