@@ -12,7 +12,7 @@ I use it a lot for my webexperiments and prototypes but it's also a very good en
 - Jade | http://jade-lang.com/
 
 
-## Getting started(2minuts!)
+### Getting started 
 
 Install nodejs if you don't have it : http://nodejs.org/
 
