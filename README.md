@@ -12,7 +12,7 @@ I use it a lot for my webexperiments and prototypes but it's also a very good en
 - Jade | http://jade-lang.com/
 
 
-## Getting started
+## Getting started(2minuts!)
 
 Install nodejs if you don't have it : http://nodejs.org/
 
@@ -55,7 +55,8 @@ gulp build
 ##Versions
 3.0:
 - change grunt to gulp to be more hype :)
-- move the grunt file to /grunt for the nostalgic.
+- remove grunt file
+- improve the readme
 
 2.0:
 - grunt more clean and effiscient
