@@ -7,8 +7,12 @@ class Stage2d
 	@stage 		: null
 	@renderer	: null
 
-	@init:()->
-		@renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight)
+	@init:(options)->
+		view = options.view||null
+		transparent = options.transparent||false
+		antialias = options.antialias||false
+		preserveDrawingBuffer = options.antialias||false
+		@renderer = new PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight,view,antialias,transparent,preserveDrawingBuffer)
 		@stage = new PIXI.Stage()
 		document.body.appendChild( @renderer.view )
 		return
@@ -18,5 +22,6 @@ class Stage2d
 		return
 
 	@resize:()->
-		@renderer.resize( window.innerWidth, window.innerHeight )
+		if @renderer
+			@renderer.resize( window.innerWidth, window.innerHeight )
 		return

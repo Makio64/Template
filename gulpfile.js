@@ -16,12 +16,9 @@ var gulp 		= require('gulp'),
 	nib 		= require('nib'),
 	sourcemaps 	= require('gulp-sourcemaps')
 	
-	browserify 	= require('gulp-browserify'),
 	browserSync = require('browser-sync'),
 	
 	imagemin 	= require('gulp-imagemin'),
-	cssmin 		= require('gulp-cssmin'),
-	htmlmin 	= require('gulp-htmlmin'),
 	uglify 		= require('gulp-uglify'),
 	minifyHtml 	= require('gulp-minify-html')
 	minifyCss 	= require('gulp-minify-css')
@@ -30,6 +27,7 @@ var gulp 		= require('gulp'),
 	gutil 		= require('gulp-util'),
 	notify 		= require('gulp-notify'),
 	newer 		= require('gulp-newer'),
+	changed 	= require('gulp-changed');
 	runSequence = require('run-sequence'),
 	del 		= require('del'),
 	rename 		= require('gulp-rename'),
@@ -41,12 +39,12 @@ var gulp 		= require('gulp'),
 
 //------------------------------------------------------------------------------ Paths
 
-var app = './app/',
-	dist = './dist/',
+var app = 'app/',
+	dist = 'dist/',
 	src = {
-		jade:'./src/jade/',
-		coffee:'./src/coffee/',
-		stylus:'./src/stylus/'
+		jade:'src/jade/',
+		coffee:'src/coffee/',
+		stylus:'src/stylus/'
 	};
 
 
@@ -61,10 +59,15 @@ gulp.task('browser-sync', function() {
     });
 });
 
+// gulp.watch bug on new files/deleted files.
 gulp.task( 'watch', function() {
-	gulp.watch( src.stylus+'**/*.styl', ['stylus'], browserSync.reload);
-	gulp.watch( src.jade+'**/*.jade', ['jade','bower'], browserSync.reload);
-	gulp.watch( src.coffee+'**/*.coffee', ['coffee', browserSync.reload]);
+	var watcher = gulp.watch( src.stylus+'**/*.styl', ['stylus'], browserSync.reload);
+	watcher.on('change', function (event) {
+		console.log('Event type: ' + event.type);
+		console.log('Event path: ' + event.path);
+	});
+	var watcherJade = gulp.watch( src.jade+'**/*.jade', ['jade','bower'], browserSync.reload);
+	var watcherCoffee = gulp.watch( src.coffee+'**/*.coffee', ['coffee', browserSync.reload]);
 } );
 
 
@@ -114,6 +117,7 @@ gulp.task( 'stylus', ['clean'], function() {
 
 gulp.task( 'coffee', ['clean'], function() {
 	return gulp.src( src.coffee+'**/*.coffee' )
+		.pipe( changed(app+'/js/' , {extension: '.js'}))
 		.pipe( sourcemaps.init())
 		.pipe( coffee( {bare: true, sourcemap: {inline: true}} ) )
 			.on( 'error', gutil.log )
@@ -126,6 +130,7 @@ gulp.task( 'coffee', ['clean'], function() {
 
 gulp.task( 'jade', runSequence('clean'), function() {
 	return gulp.src( src.jade+'**/*.jade' )
+		.pipe( changed(app, {extension: '.html'}))
 		.pipe( jade( {pretty: true} ) )
 			.on( 'error', gutil.log )
 			.on( 'error', gutil.beep )
@@ -140,20 +145,7 @@ gulp.task( 'jade', runSequence('clean'), function() {
 gulp.task('imagemin', function(){
     return gulp.src( app+'img/**/*.*' )
         .pipe(imagemin({optimizationLevel: 7}))
-        .pipe(gulp.dest(dist+'img'));
-});
-
-gulp.task('cssmin', function(){
-    return gulp.src( app+'css/**/*.css' )
-		.pipe(cssmin())
-		.pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest(dist+'img'));
-});
-
-gulp.task('htmlmin', function() {
-	return gulp.src( app+'**/*.html')
-		.pipe(htmlmin({collapseWhitespace: true}))
-		.pipe(gulp.dest(dist))
+        .pipe(gulp.dest(app));
 });
 
 gulp.task('usemin', function() {
@@ -173,10 +165,8 @@ gulp.task( 'compile', function(callback){
 	runSequence([ 'bowerInstall', 'stylus', 'coffee', 'jade' ],['bower'],callback); 
 });
 
-gulp.task( 'minify', [ 'imagemin', 'cssmin', 'htmlmin' ]);
-
 gulp.task( 'build', function(callback) { 
-	runSequence(['cleanDist','compile'], ['bower'], ['usemin','copy'], callback) 
+	runSequence(['cleanDist','compile'], ['bower'], ['usemin','imagemin'],['copy'], callback) 
 });
 
 gulp.task( 'default', function(callback) {

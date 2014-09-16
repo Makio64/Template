@@ -10,19 +10,22 @@ class Stage3d
 	@projector = null
 	@renderer = null
 
-	@init = ()->
-		WIDTH = window.innerWidth
-		HEIGHT = window.innerHeight
+	@init = (options)->
+		w = window.innerWidth
+		h = window.innerHeight
 
-		@camera = new THREE.PerspectiveCamera( 40, WIDTH / HEIGHT, 1, 10000 )
+		@camera = new THREE.PerspectiveCamera( 40, w / h, 1, 10000 )
 		@camera.position.z = 15000
-		@cameraTarget = new THREE.Vector3(0,0,300)
+		@cameraTarget = new THREE.Vector3(0,0,400)
 
 		@scene = new THREE.Scene()
 		@projector = new THREE.Projector()
 
-		@renderer = new THREE.WebGLRenderer({alpha:true})
-		@renderer.setSize( WIDTH, HEIGHT )
+		transparent = options.transparent||false
+		antialias = options.antialias||false
+
+		@renderer = new THREE.WebGLRenderer({alpha:transparent,antialias:antialias})
+		@renderer.setSize( w, h )
 
 		document.body.appendChild(@renderer.domElement)
 		return
@@ -41,7 +44,8 @@ class Stage3d
 		return
 
 	@resize = ()->
-		@camera.aspect = window.innerWidth / window.innerHeight
-		@camera.updateProjectionMatrix()
-		@renderer.setSize( window.innerWidth, window.innerHeight )
+		if @renderer
+			@camera.aspect = window.innerWidth / window.innerHeight
+			@camera.updateProjectionMatrix()
+			@renderer.setSize( window.innerWidth, window.innerHeight )
 		return

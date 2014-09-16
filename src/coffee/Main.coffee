@@ -14,6 +14,11 @@ class Main
 		@pause = false
 		@lastTime = Date.now()
 		window.focus()
+		if PIXI
+			Stage2d.init({transparent:false,antialias:false, background:0xFF0000})
+		if THREE
+			Stage3d.init({transparent:false,antialias:false, background:0x0000FF})
+		
 		requestAnimationFrame( @update )
 		return
 
@@ -24,8 +29,14 @@ class Main
 
 		if @pause then return
 
-		#update logic here
-		SceneTraveler.currentScene.update(dt)
+		# update logic here
+		SceneTraveler.update(dt)
+		
+		# render frame
+		if PIXI
+			Stage2d.render()
+		if THREE
+			Stage3d.render()
 
 		requestAnimationFrame( @update )
 		return

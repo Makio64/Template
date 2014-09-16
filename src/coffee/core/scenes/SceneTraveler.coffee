@@ -22,6 +22,10 @@ class SceneTraveler
 			@onTransitionOutComplete()
 		return
 
+	@update = (dt)->
+		if @currentScene != null
+			@currentScene.update(dt)
+
 
 	@onTransitionOutComplete = ()->
 		if @currentScene != null
@@ -29,7 +33,6 @@ class SceneTraveler
 		
 		@currentScene = @nextScene
 		@currentScene.transitionIn()
-		console.log @currentScene
 		Stage2d.stage.addChild(@currentScene)
 		return
 
