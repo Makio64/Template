@@ -7,12 +7,11 @@
 		"david.ronai <david.ronai@gmail.com>"
 	],
 	"dependencies": {
-		"jquery"			: "~2.*",
-		"threejs"			: "*",
+		"jquery"			: "*",
+		"three.js"			: "*",
+		"gsap"				: "*",
 		"pixi.js"			: "*",
-		"vue"				: "*",
 		"raf.js"			: "*",
-		"dat-gui"			: "*",
-		"gsap"				: "*"
+		"dat-gui"			: "*"
 	}
 }
