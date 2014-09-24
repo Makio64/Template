@@ -17,6 +17,10 @@ class Stage2d
 		document.body.appendChild( @renderer.view )
 		return
 
+	@addChild:(o)->
+		@stage.addChild(o)
+		return
+
 	@render:()->
 		@renderer.render ( @stage )
 		return
