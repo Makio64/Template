@@ -14,20 +14,22 @@ var gulp 		= require('gulp'),
 	coffee 		= require('gulp-coffee'),
 	stylus 		= require('gulp-stylus'),
 	nib 		= require('nib'),
-	sourcemaps 	= require('gulp-sourcemaps')
+	sourcemaps 	= require('gulp-sourcemaps'),
+	
+	plumber 	= require('gulp-plumber'),
 	
 	browserSync = require('browser-sync'),
 	
 	imagemin 	= require('gulp-imagemin'),
 	uglify 		= require('gulp-uglify'),
-	minifyHtml 	= require('gulp-minify-html')
-	minifyCss 	= require('gulp-minify-css')
+	minifyHtml 	= require('gulp-minify-html'),
+	minifyCss 	= require('gulp-minify-css'),
 	usemin		= require('gulp-usemin'),
 
 	gutil 		= require('gulp-util'),
 	notify 		= require('gulp-notify'),
 	newer 		= require('gulp-newer'),
-	changed 	= require('gulp-changed');
+	changed 	= require('gulp-changed'),
 	runSequence = require('run-sequence'),
 	del 		= require('del'),
 	rename 		= require('gulp-rename'),
@@ -40,7 +42,7 @@ var gulp 		= require('gulp'),
 //------------------------------------------------------------------------------ Paths
 
 var app = 'app/',
-	dist = './dist/',
+	dist = 'dist/',
 	src = {
 		jade:'src/jade/',
 		coffee:'src/coffee/',
@@ -51,18 +53,18 @@ var app = 'app/',
 //------------------------------------------------------------------------------ Server + Livereload
 
 gulp.task('browser-sync', function() {
-    browserSync({
-        server: {
-            baseDir: app
-        },
-        port: 9000
-    });
+	browserSync({
+		server: {
+			baseDir: app
+		},
+		port: 9000
+	});
 });
 
 // gulp.watch bug on new files/deleted files.
 gulp.task( 'watch', function() {
-	gulp.watch( src.stylus+'**/*.styl', ['stylus'], browserSync.reload);
-	gulp.watch( src.jade+'**/*.jade', runSequence(['jade'],['injectBower']), browserSync.reload);
+	gulp.watch( src.stylus+'**/*.styl', ['stylus', browserSync.reload]);
+	gulp.watch( src.jade+'**/*.jade', function(){runSequence(['jade'],['injectBower'])} );
 	gulp.watch( src.coffee+'**/*.coffee', ['coffee', browserSync.reload]);
 } );
 
@@ -70,7 +72,7 @@ gulp.task( 'watch', function() {
 //------------------------------------------------------------------------------ Utils
 
 gulp.task('clean', function(cb) {
-    del(['output'], cb);
+	del(['output'], cb);
 });
 
 gulp.task('cleanDist', function(cb) {
@@ -83,18 +85,21 @@ gulp.task('bowerInstall', function() {
 
 gulp.task('injectBower', function(){
 	return gulp.src(app+'*.html')
-	    .pipe(wiredep({
-	    	directory: app+'bower_components',
-            bowerJson: require('./bower.json')
-        }))
+		.pipe(plumber())
+		.pipe(wiredep({
+			directory: app+'bower_components',
+			bowerJson: require('./bower.json')
+		}))
 		.on( 'error', gutil.log )
 		.on( 'error', gutil.beep )
 		.on( 'error', notify.onError('Error: <%= error.message %>') )
-        .pipe(gulp.dest(app));
+		.pipe(gulp.dest(app))
+		.pipe(browserSync.reload({stream:true}));
 })
 
 gulp.task('copy', function() {
 	return gulp.src([app+'**', '!'+app, '!'+app+'bower_components/**', '!'+app+'bower_components', '!'+app+'/js/**', '!'+app+'/css/**', '!'+app+'/img/**','!'+app+'*.html'])
+		.pipe(plumber())
 		.pipe(gulp.dest(dist));
 });
 
@@ -103,6 +108,7 @@ gulp.task('copy', function() {
 
 gulp.task( 'stylus', ['clean'], function() {
 	return gulp.src( src.stylus+'main.styl' )
+		.pipe(plumber())
 		.pipe( stylus( { use: [ nib() ], sourcemap: {inline: true} } ) )
 			.on( 'error', gutil.log )
 			.on( 'error', gutil.beep )
@@ -113,6 +119,7 @@ gulp.task( 'stylus', ['clean'], function() {
 
 gulp.task( 'coffee', ['clean'], function() {
 	return gulp.src( src.coffee+'**/*.coffee' )
+		.pipe(plumber())
 		.pipe( changed(app+'/js/' , {extension: '.js'}))
 		.pipe( sourcemaps.init())
 		.pipe( coffee( {bare: true, sourcemap: {inline: true}} ) )
@@ -126,6 +133,7 @@ gulp.task( 'coffee', ['clean'], function() {
 
 gulp.task( 'jade', ['clean'], function() {
 	return gulp.src( src.jade+'**/*.jade' )
+		.pipe(plumber())
 		.pipe( changed(app, {extension: '.html'}))
 		.pipe( jade( {pretty: true} ) )
 			.on( 'error', gutil.log )
@@ -139,13 +147,15 @@ gulp.task( 'jade', ['clean'], function() {
 //------------------------------------------------------------------------------ Minifications
 
 gulp.task('imagemin', function(){
-    return gulp.src( app+'img/**/*.*' )
-        .pipe(imagemin({optimizationLevel: 7}))
-        .pipe(gulp.dest(app));
+	return gulp.src( app+'img/**/*.*' )
+		.pipe(plumber())
+		.pipe(imagemin({optimizationLevel: 7}))
+		.pipe(gulp.dest(app));
 });
 
 gulp.task('usemin', function() {
 	return gulp.src(app+'*.html')
+		.pipe(plumber())
 		.pipe( usemin({
 			css: [minifyCss()],
 			html: [minifyHtml({empty: true})],
