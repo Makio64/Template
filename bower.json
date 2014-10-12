@@ -8,10 +8,11 @@
 	],
 	"dependencies": {
 		"jquery"			: "*",
-		"three.js"			: "*",
+		"threejs"			: "dev",
+		"pixi.js"			: "dev",
 		"gsap"				: "*",
-		"pixi.js"			: "*",
 		"raf.js"			: "*",
-		"dat-gui"			: "*"
+		"dat-gui"			: "*",
+		"vue"				: "0.11.0-rc2"
 	}
 }
