@@ -6,12 +6,12 @@
   "authors": [
     "david.ronai <david.ronai@gmail.com>"
   ],
-  "private": true,
+  "private": false,
   "engines": {
     "node": "*",
     "npm": "*"
   },
-  "dependencies": {
+  "devDependencies": {
     "browser-sync": "*",
     "coffee-script": "*",
     "del": "*",
