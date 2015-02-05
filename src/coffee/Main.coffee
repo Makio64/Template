@@ -14,10 +14,14 @@ class Main
 		@pause = false
 		@lastTime = Date.now()
 		window.focus()
-		if PIXI
+		
+		if window.PIXI != undefined
 			Stage2d.init({transparent:false,antialias:false, background:0xFF0000})
-		if THREE
+
+		if window.THREE != undefined
 			Stage3d.init({transparent:false,antialias:false, background:0x0000FF})
+
+		# SceneTraveler.travelTo( new LoaderScene() )
 		
 		requestAnimationFrame( @update )
 		return
@@ -33,9 +37,10 @@ class Main
 		SceneTraveler.update(dt)
 		
 		# render frame
-		if PIXI
+		if window.PIXI
 			Stage2d.render()
-		if THREE
+
+		if window.THREE
 			Stage3d.render()
 
 		requestAnimationFrame( @update )

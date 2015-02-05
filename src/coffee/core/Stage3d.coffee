@@ -4,22 +4,26 @@
 # 
 class Stage3d
 
-	@camera = null
-	@cameraTarget = null
-	@scene = null
-	@projector = null
-	@renderer = null
 
-	@init = (options)->
+	@camera 	= null
+	@scene 		= null
+	@renderer 	= null
+	@isInit		= false
+
+
+	@init = (options)=>
+
+		if(@isInit)
+			return
+
 		w = window.innerWidth
 		h = window.innerHeight
 
-		@camera = new THREE.PerspectiveCamera( 40, w / h, 1, 10000 )
+		@camera = new THREE.PerspectiveCamera( 20, w / h, 1, 1000 )
 		@camera.position.z = 15000
-		@cameraTarget = new THREE.Vector3(0,0,400)
 
 		@scene = new THREE.Scene()
-		@projector = new THREE.Projector()
+		@scene.add( new THREE.AmbientLight(color:0xFFFFFF) )
 
 		transparent = options.transparent||false
 		antialias = options.antialias||false
@@ -30,20 +34,29 @@ class Stage3d
 		document.body.appendChild(@renderer.domElement)
 		return
 
-	@add = (obj)->
+
+	@add = (obj)=>
 		@scene.add(obj)
 		return
 
-	@render = ()->
-		@camera.position.x += (@cameraTarget.x-@camera.position.x)*0.05
-		@camera.position.y += (@cameraTarget.y-@camera.position.y)*0.05
-		@camera.position.z += (@cameraTarget.z-@camera.position.z)*0.05
 
-		@camera.lookAt(@scene.position)
+	@remove = (obj)=>
+		@scene.remove(obj)
+		return
+
+
+	@removeAll = ()=>
+		while @scene.children.length>0
+			@scene.remove(@scene.children[0])
+		return
+
+
+	@render = ()=>
 		Stage3d.renderer.render(@scene, @camera)
 		return
 
-	@resize = ()->
+
+	@resize = ()=>
 		if @renderer
 			@camera.aspect = window.innerWidth / window.innerHeight
 			@camera.updateProjectionMatrix()

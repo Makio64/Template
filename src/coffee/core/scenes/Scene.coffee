@@ -4,10 +4,9 @@
 # @author David Ronai / Makiopolis.com / @Makio64 
 # 
 
-class Scene extends PIXI.DisplayObjectContainer
+class Scene
 
 	constructor:()->
-		super()
 		return
 
 	update:(dt)->
@@ -17,9 +16,11 @@ class Scene extends PIXI.DisplayObjectContainer
 		return
 
 	transitionIn:()->
+		@onTransitionInComplete()
 		return
 
 	transitionOut:()->
+		@onTransitionOutComplete()
 		return
 
 	onTransitionInComplete:()->

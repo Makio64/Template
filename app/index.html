@@ -1,36 +1,32 @@
-<!DOCTYPE html>
+
+<h1>Template</h1><!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta property="og:site_name" content="SimpleTemplate">
-    <meta property="og:title" content="SimpleTemplate">
-    <meta property="og:description" content="your website">
+    <meta property="og:site_name" content="Template">
+    <meta property="og:title" content="Template">
+    <meta property="og:description" content="Description">
     <meta property="og:type" content="website">
     <meta property="og:url" content="">
     <meta property="og:image" content="">
-    <title>SimpleTemplate</title>
+    <title>Template</title>
     <!-- build:css css/main.css-->
     <link rel="stylesheet" href="css/main.css">
     <!-- endbuild-->
   </head>
   <body>
-    <h1>Imagination is more important than knowledge. Let start an awesome project!</h1>
-    <!-- build:js js/vendor.js-->
-    <!-- bower:js-->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/three.js/three.min.js"></script>
-    <script src="bower_components/gsap/src/uncompressed/TweenMax.js"></script>
-    <script src="bower_components/pixi.js/bin/pixi.js"></script>
-    <script src="bower_components/raf.js/raf.js"></script>
-    <script src="bower_components/dat-gui/build/dat.gui.js"></script>
-    <!-- endbower-->
+    <!-- build:js js/vendors.js-->
+    <script type="text/javascript" src="vendors/threejs/three.js"></script>
+    <script type="text/javascript" src="vendors/greensock/uncompressed/TweenMax.js"></script>
+    <script type="text/javascript" src="vendors/pixi/pixi.dev.js"></script>
+    <script type="text/javascript" src="vendors/dat.gui.js"></script>
     <!-- endbuild-->
     <!-- build:js js/main.js-->
-    <script type="text/javascript" src="js/core/2d/Stage2d.js"></script>
-    <script type="text/javascript" src="js/core/3d/Stage3d.js"></script>
+    <script type="text/javascript" src="js/core/Stage2d.js"></script>
+    <script type="text/javascript" src="js/core/Stage3d.js"></script>
     <script type="text/javascript" src="js/core/scenes/Scene.js"></script>
     <script type="text/javascript" src="js/core/scenes/SceneTraveler.js"></script>
     <script type="text/javascript" src="js/main.js"></script>

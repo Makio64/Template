@@ -28,12 +28,8 @@ class SceneTraveler
 
 
 	@onTransitionOutComplete = ()->
-		if @currentScene != null
-			Stage2d.stage.removeChild(@currentScene)
-		
 		@currentScene = @nextScene
 		@currentScene.transitionIn()
-		Stage2d.stage.addChild(@currentScene)
 		return
 
 

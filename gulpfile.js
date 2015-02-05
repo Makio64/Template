@@ -3,12 +3,10 @@
  * @commands :
  * - 'gulp' for testing your webapp
  * - 'gulp compile' for compiling only
- * - 'gulp build' for building final files
+ * - 'gulp build' for building final minified files
  */
 
-
 //------------------------------------------------------------------------------ Imports
-
 var gulp 		= require('gulp'),
 	jade 		= require('gulp-jade'),
 	coffee 		= require('gulp-coffee'),
@@ -32,16 +30,16 @@ var gulp 		= require('gulp'),
 	runSequence = require('run-sequence'),
 	del 		= require('del'),
 	rev 		= require('gulp-rev'),
-	bower 		= require('gulp-bower'),
 	wiredep 	= require('wiredep').stream,
 	gulpIgnore 	= require('gulp-ignore');
 
 
-//------------------------------------------------------------------------------ Paths
+//------------------------------------------------------------------------------ s
 
 var app = 'app/',
 	dist = 'dist/',
 	src = {
+		main:'src/',
 		jade:'src/jade/',
 		coffee:'src/coffee/',
 		stylus:'src/stylus/'
@@ -61,10 +59,16 @@ gulp.task('browser-sync', function() {
 
 // gulp.watch bug on new files/deleted files.
 gulp.task( 'watch', function() {
-	gulp.watch( src.stylus+'**/*.styl', ['stylus', browserSync.reload]);
-	gulp.watch( src.jade+'**/*.jade', function(){runSequence(['jade'],['injectBower'])} );
-	gulp.watch( src.coffee+'**/*.coffee', ['coffee', browserSync.reload]);
-} );
+	var coffee = src.coffee+'**/*.coffee'
+	var jade = src.jade+'**/*.jade'
+	var stylus = src.stylus+'**/*.styl'
+
+	gulp.watch( stylus, ['stylus', browserSync.reload]);
+	gulp.watch( jade,   ['jade', browserSync.reload]);
+	gulp.watch( coffee, ['coffee', browserSync.reload]);
+
+	gulp.watch( [src.main+'**', src.main+'**/*', '!'+coffee, '!'+jade, '!'+stylus], ['copySrc', browserSync.reload]);
+});
 
 
 //------------------------------------------------------------------------------ Utils
@@ -77,26 +81,14 @@ gulp.task('cleanDist', function(cb) {
 	del([dist], cb);
 });
 
-gulp.task('bowerInstall', function() {
-	return bower();
+gulp.task('copySrc', function() {
+	return gulp.src([src.main+'**', '!'+src.coffee, '!'+src.stylus, '!'+src.jade,'!'+src.coffee+'**', '!'+src.stylus+'**', '!'+src.jade+'**'])
+		.pipe(plumber())
+		.pipe(gulp.dest(app));
 });
 
-gulp.task('injectBower', function(){
-	return gulp.src(app+'*.html')
-		.pipe(plumber())
-		.pipe(wiredep({
-			directory: app+'bower_components',
-			bowerJson: require('./bower.json')
-		}))
-		.on( 'error', gutil.log )
-		.on( 'error', gutil.beep )
-		.on( 'error', notify.onError('Error: <%= error.message %>') )
-		.pipe(gulp.dest(app))
-		.pipe(browserSync.reload({stream:true}));
-})
-
 gulp.task('copy', function() {
-	return gulp.src([app+'**', '!'+app, '!'+app+'bower_components/**', '!'+app+'bower_components', '!'+app+'/js/**', '!'+app+'/css/**', '!'+app+'/img/**','!'+app+'*.html'])
+	return gulp.src([app+'**', '!'+app+'/js', '!'+app+'/js/**', '!'+app+'/css','!'+app+'/css/**', '!'+app+'/img', '!'+app+'/img/**','!'+app+'*.html'])
 		.pipe(plumber())
 		.pipe(gulp.dest(dist));
 });
@@ -104,42 +96,42 @@ gulp.task('copy', function() {
 
 //------------------------------------------------------------------------------ Compilations
 
+
 gulp.task( 'stylus', ['clean'], function() {
 	return gulp.src( src.stylus+'main.styl' )
 		.pipe(plumber())
-		.pipe( stylus( { use: [ nib() ], sourcemap: {inline: true} } ) )
+		.pipe(stylus( { use: [ nib() ], sourcemap: {inline: true} } ) )
 			.on( 'error', gutil.log )
 			.on( 'error', gutil.beep )
 			.on( 'error', notify.onError('Error: <%= error.message %>') )
-		.pipe( gulp.dest( app+'/css/' ) )    
-		.pipe( notify({ onLast: true, message:'Stylus compile with success!'}) );
-} );
+		.pipe(gulp.dest( app+'/css/' ) )    
+		.pipe(notify({ onLast: true, message:'Stylus compile with success!'}));
+});
+
 
 gulp.task( 'coffee', ['clean'], function() {
 	return gulp.src( src.coffee+'**/*.coffee' )
 		.pipe(plumber())
-		.pipe( changed(app+'/js/' , {extension: '.js'}))
-		.pipe( sourcemaps.init())
-		.pipe( coffee( {bare: true, sourcemap: {inline: true}} ) )
-			.on( 'error', gutil.log )
-			.on( 'error', gutil.beep )
-			.on( 'error', notify.onError('Error: <%= error.message %>') )
-		.pipe( sourcemaps.write() )
-		.pipe( gulp.dest( app+'/js/' ) )    
-		.pipe( notify({ onLast: true, message:'Coffee compile with success!' }) );
-} );
+		.pipe(changed(app+'/js/' , {extension: '.js'}))
+		.pipe(sourcemaps.init())
+		.pipe(coffee( {bare: true, sourcemap: {inline: true}} ) )
+		.pipe(sourcemaps.write() )
+		.pipe(gulp.dest( app+'/js/' ) )    
+		.pipe(notify({ onLast: true, message:'Coffee compile with success!' }));
+});
+
 
 gulp.task( 'jade', ['clean'], function() {
 	return gulp.src( src.jade+'**/*.jade' )
 		.pipe(plumber())
-		.pipe( changed(app, {extension: '.html'}))
-		.pipe( jade( {pretty: true} ) )
+		.pipe(changed(app, {extension: '.html'}))
+		.pipe(jade( {pretty: true} ) )
 			.on( 'error', gutil.log )
 			.on( 'error', gutil.beep )
 			.on( 'error', notify.onError('Error: <%= error.message %>') )
-		.pipe( notify({ onLast: true, message:'Jade compile with success!' }) )
-		.pipe( gulp.dest( app ) );
-} );
+		.pipe(notify({ onLast: true, message:'Jade compile with success!' }) )
+		.pipe(gulp.dest( app ));
+});
 
 
 //------------------------------------------------------------------------------ Minifications
@@ -147,32 +139,33 @@ gulp.task( 'jade', ['clean'], function() {
 gulp.task('imagemin', function(){
 	return gulp.src( app+'img/**/*.*' )
 		.pipe(plumber())
-		.pipe(imagemin({optimizationLevel: 7}))
-		.pipe(gulp.dest(app));
+		.pipe(imagemin({optimizationLevel: 5}))
+		.pipe(gulp.dest(dist+'img/'));
 });
 
 gulp.task('usemin', function() {
 	return gulp.src(app+'*.html')
-		.pipe(plumber())
-		.pipe( usemin({
-			css: [minifyCss()],
-			html: [minifyHtml({empty: true})],
-			js: [uglify(), rev()]
-		}))
-		.pipe( gulp.dest(dist) );
+   		.pipe(plumber())
+		.pipe(usemin({
+        css: [minifyCss(), 'concat', rev()],
+        html: [minifyHtml({empty: true})],
+        js: [uglify(), rev()]
+      }))
+      .pipe(gulp.dest(dist));
 });
-
 
 //------------------------------------------------------------------------------ Main tasks
 
 gulp.task( 'compile', function(callback){
-	runSequence([ 'bowerInstall', 'stylus', 'coffee', 'jade' ],callback); 
+	runSequence([ 'stylus', 'coffee', 'jade' ],callback); 
 });
+
 
 gulp.task( 'build', function(callback) { 
-	runSequence(['cleanDist','compile'], ['injectBower'], ['usemin','imagemin'],['copy'], callback) 
+	runSequence(['cleanDist','compile','copySrc'], ['usemin','copy'],['imagemin'], callback) 
 });
 
+
 gulp.task( 'default', function(callback) {
-	runSequence(['compile'], ['injectBower'], ['browser-sync'], ['watch'], callback)
+	runSequence(['compile'], ['browser-sync'], ['watch'], callback)
 });

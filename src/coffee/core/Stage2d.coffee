@@ -4,10 +4,18 @@
 # 
 class Stage2d
 
-	@stage 		: null
-	@renderer	: null
+	@stage 		= null
+	@renderer	= null
+	@isInit 	= false
 
 	@init:(options)->
+
+		if(@isInit)
+			return
+
+		PIXI.dontSayHello = true
+		console.log('PIXI',PIXI.VERSION)
+
 		view = options.view||null
 		transparent = options.transparent||false
 		antialias = options.antialias||false
@@ -18,6 +26,10 @@ class Stage2d
 		return
 
 	@addChild:(o)->
+		@stage.addChild(o)
+		return
+
+	@removeChild:(o)->
 		@stage.addChild(o)
 		return
 
