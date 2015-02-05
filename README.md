@@ -2,7 +2,7 @@
 
 Boilerplate make the powerfull combo coffee/stylus/jade easy to use & deploy.
 
-I use it a lot for my webexperiments and prototypes but it's also a good entry point for profesionnal work.
+I use it a lot for my webexperiments and prototypes but it's also a good entry point for profesionnal work. If you are looking to build more complex app than just an experiments have a look to [Template-Modules](https://github.com/Makio64/Template-Modules)
 
 ### Getting started 
 
