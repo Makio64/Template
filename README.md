@@ -1,4 +1,4 @@
-# [Project boilerplate by Makio64](https://github.com/Makio64/Template)
+# [Template](https://github.com/Makio64/Template)
 
 Boilerplate make the powerfull combo coffee/stylus/jade easy to use & deploy.
 
