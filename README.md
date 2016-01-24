@@ -1,14 +1,16 @@
+# [Deprecated please use Starter](https://github.com/Makio64/starter)
+
 # [Template](https://github.com/Makio64/Template)
 
 Boilerplate make the powerfull combo coffee/stylus/jade easy to use & deploy.
 
 I use it a lot for my webexperiments and prototypes but it's also a good entry point for profesionnal work. If you are looking to build more complex app than just an experiments have a look to [Template-Modules](https://github.com/Makio64/Template-Modules)
 
-### Getting started 
+### Getting started
 
 - Install nodejs if you don't have it : http://nodejs.org/
 
-- Then copy the template in a folder 
+- Then copy the template in a folder
 - Type in the console
 ```shell
 cd yourFolder/
@@ -40,7 +42,7 @@ gulp build
 
 ## Versions
 3.1:
-- remove bower: install too much stuffs for lib like three.js/pixi 
+- remove bower: install too much stuffs for lib like three.js/pixi
 - add common libs in js/vendors
 - refractor the core
 
